@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <style>
+        * { margin: 0; padding: 0;font-size: 0}
+        #div1 {
+            height:2500px;
+            width: 400px;
+            background: red;
+        }
+        #div2,#div3{
+            height: 300px;
+            width: 200px;
+            background: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1"></div>
+    <div id="div2"></div>
+    <img data-src="1.jpg" alt="">
+    <div id="div3"></div>
+    <img data-src="2.jpg" alt="">
+</body>
+</html>
+<script>
+    function Main(){};
+    Main.prototype={
+        lazyload:function () {
+            var div1=document.getElementById('div1'),
+                div2=document.getElementById('div2'),
+                img=document.getElementsByTagName('img'),
+                H=document.documentElement.clientHeight;
+                window.addEventListener('scroll',function () {
+                    var scrollY=(document.body.scrollTop || window.pageYOffset || document.documentElement.scrollTop)+H;
+                    for(var i=0;i<img.length;i++) {
+                        var h=img[i].offsetTop;
+                        console.log(h);
+                        var SRC=img[i].getAttribute('data-src');
+                        if(h<=scrollY) {
+                            img[i].src=SRC;
+                        }
+                    }
+                })
+        }
+    };
+    var main=new Main();
+    main.lazyload();
+</script>
